@@ -25,10 +25,4 @@ jobs:
         run: go mod tidy
 
       - name: Build and Run
-        run: |
-          make run
-          if [ $? -ne 0 ]; then
-            echo "Error occurred during 'make run'"
-            exit 1
-          fi
-        shell: bash
+        run: make run
