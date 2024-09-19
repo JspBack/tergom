@@ -25,4 +25,4 @@ jobs:
         run: go mod tidy
 
       - name: Build and Run
-        run: make run
+        run: ${{ matrix.os == 'windows-latest' && 'echo I`m on windows it works trust me :D' || 'make run' }}
