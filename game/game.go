@@ -146,6 +146,9 @@ func (g *Game) update() {
 		for _, enemy := range g.currentWave.Enemies {
 			if enemy.Health > 0 && enemy.Position.X == b.Position.X && enemy.Position.Y == b.Position.Y {
 				enemy.TakeDamage(10)
+				if enemy.Health <= 0 {
+					g.player.IncreaseScore(10)
+				}
 				g.player.Bullets[i] = nil
 				break
 			}
@@ -208,6 +211,9 @@ func (g *Game) update() {
 		g.waveNumber++
 		g.spawnWave()
 		g.currentWave.IncreaseEnemiesSpeed()
+		g.player.IncreaseHealth(30)
+		g.player.IncreaseAmmunition(50)
+		g.stats.IncreaseTime(60)
 		return
 	}
 
@@ -215,7 +221,12 @@ func (g *Game) update() {
 	for _, enemy := range g.currentWave.Enemies {
 		if enemy.Health > 0 && enemy.Position.X == g.player.Position.X && enemy.Position.Y == g.player.Position.Y {
 			g.player.TakeDamage(20)
-			enemy.TakeDamage(20)
+			enemy.TakeDamage(10)
+
+			if enemy.Health <= 0 {
+				g.player.IncreaseScore(10)
+			}
+
 			if g.player.Health <= 0 {
 				break
 			}
@@ -248,7 +259,8 @@ func (g *Game) render() {
 		}
 	}
 
-	renderer.RenderStats(g.stats, g.player, g.level, g.drawBuf)
+	renderer.RenderStats(g.stats, g.player, g.level, g.drawBuf, g.level.Width)
+
 	fmt.Fprint(os.Stdout, g.drawBuf.String())
 }
 

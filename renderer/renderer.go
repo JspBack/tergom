@@ -43,13 +43,21 @@ func RenderEnemy(e *enemy.Enemy, buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("\033[%d;%dHEE", e.Position.Y+1, e.Position.X*2+1))
 }
 
-func RenderStats(s *stats.Stats, p *player.Player, lvl *level.Level, buf *bytes.Buffer) {
+func RenderStats(s *stats.Stats, p *player.Player, lvl *level.Level, buf *bytes.Buffer, width int) {
 	timeLeft := s.GetTimeLeft()
-	buf.WriteString(fmt.Sprintf("\033[%d;%dH-- Stats --", lvl.Height+1, 1))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHFPS: %.2f", lvl.Height+2, 1, s.FPS))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHHealth: %03d", lvl.Height+3, 1, p.Health))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHAmmunition: %03d", lvl.Height+4, 1, p.Ammunition))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHTime Left: %d", lvl.Height+5, 1, timeLeft))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHCurrent Wave: %d", lvl.Height+6, 1, s.CurrentWave))
-	buf.WriteString(fmt.Sprintf("\033[%d;%dHTotal Waves Cleared: %d", lvl.Height+7, 1, s.WavesCleared))
+
+	leftX := 1
+	rightX := width/2 + 1
+	baseY := lvl.Height + 1
+
+	buf.WriteString(fmt.Sprintf("\033[%d;%dH-- Player Stats --", baseY, leftX))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHHealth: %03d", baseY+1, leftX, p.Health))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHAmmunition: %03d", baseY+2, leftX, p.Ammunition))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHScore: %d", baseY+3, leftX, p.Score))
+
+	buf.WriteString(fmt.Sprintf("\033[%d;%dH-- Game Stats --", baseY, rightX))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHFPS: %.2f", baseY+1, rightX, s.FPS))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHTime Left: %d", baseY+2, rightX, timeLeft))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHCurrent Wave: %d", baseY+3, rightX, s.CurrentWave))
+	buf.WriteString(fmt.Sprintf("\033[%d;%dHTotal Waves Cleared: %d", baseY+4, rightX, s.WavesCleared))
 }

@@ -70,3 +70,9 @@ func (s *Stats) SetWaveCompleted(waveNumber int) {
 		s.CurrentWave = waveNumber + 1
 	}
 }
+
+func (s *Stats) IncreaseTime(seconds int) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	s.TimeLeft += seconds
+}

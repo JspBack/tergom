@@ -18,6 +18,7 @@ type Player struct {
 	Ammunition    int
 	lastShootTime time.Time
 	shootCooldown time.Duration
+	Score         int
 }
 
 func NewPlayer(lvl *level.Level, x, y int) *Player {
@@ -29,6 +30,7 @@ func NewPlayer(lvl *level.Level, x, y int) *Player {
 		Ammunition:    100,
 		lastShootTime: time.Now(),
 		shootCooldown: 100 * time.Millisecond,
+		Score:         0,
 	}
 }
 
@@ -61,4 +63,16 @@ func (p *Player) TakeDamage(damage int) {
 	if p.Health <= 0 {
 		p.Health = 0
 	}
+}
+
+func (p *Player) IncreaseHealth(health int) {
+	p.Health += health
+}
+
+func (p *Player) IncreaseAmmunition(ammunition int) {
+	p.Ammunition += ammunition
+}
+
+func (p *Player) IncreaseScore(score int) {
+	p.Score += score
 }
