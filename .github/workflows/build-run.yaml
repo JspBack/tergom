@@ -1,0 +1,34 @@
+name: Build and Run Go Game
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.23"
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Build and Run
+        run: |
+          make run
+          if [ $? -ne 0 ]; then
+            echo "Error occurred during 'make run'"
+            exit 1
+          fi
+        shell: bash
