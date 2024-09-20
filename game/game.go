@@ -124,6 +124,7 @@ func (g *Game) handleKey(key keyboard.Key) {
 	case keyboard.KeySpace:
 		g.player.Shoot()
 	}
+
 }
 
 func (g *Game) update() {
@@ -214,6 +215,7 @@ func (g *Game) update() {
 		g.player.IncreaseHealth(30)
 		g.player.IncreaseAmmunition(50)
 		g.stats.IncreaseTime(60)
+		g.stats.AddLog(fmt.Sprintf("Wave %d completed", g.waveNumber))
 		return
 	}
 
@@ -222,6 +224,7 @@ func (g *Game) update() {
 		if enemy.Health > 0 && enemy.Position.X == g.player.Position.X && enemy.Position.Y == g.player.Position.Y {
 			g.player.TakeDamage(20)
 			enemy.TakeDamage(10)
+			g.stats.AddLog(fmt.Sprintf("Player collided with enemy at %d,%d", enemy.Position.X, enemy.Position.Y))
 
 			if enemy.Health <= 0 {
 				g.player.IncreaseScore(10)

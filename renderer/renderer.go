@@ -60,4 +60,20 @@ func RenderStats(s *stats.Stats, p *player.Player, lvl *level.Level, buf *bytes.
 	buf.WriteString(fmt.Sprintf("\033[%d;%dHTime Left: %d", baseY+2, rightX, timeLeft))
 	buf.WriteString(fmt.Sprintf("\033[%d;%dHCurrent Wave: %d", baseY+3, rightX, s.CurrentWave))
 	buf.WriteString(fmt.Sprintf("\033[%d;%dHTotal Waves Cleared: %d", baseY+4, rightX, s.WavesCleared))
+
+	buf.WriteString(fmt.Sprintf("\033[%d;%dH-- LOGS --", baseY, rightX*2))
+	startIndex := len(s.Logs) - 4
+	if startIndex < 0 {
+		startIndex = 0
+	}
+	for i := 0; i < 4; i++ {
+		logIndex := startIndex + i
+		var log string
+		if logIndex < len(s.Logs) {
+			log = s.Logs[logIndex]
+		} else {
+			log = ""
+		}
+		buf.WriteString(fmt.Sprintf("\033[%d;%dH%-50s", baseY+i+1, rightX*2, log))
+	}
 }

@@ -16,6 +16,7 @@ type Stats struct {
 	WavesCleared int
 	mutex        sync.Mutex
 	timerStart   time.Time
+	Logs         []string
 }
 
 func NewStats() *Stats {
@@ -26,6 +27,7 @@ func NewStats() *Stats {
 		TimeLeft:     60,
 		CurrentWave:  1,
 		WavesCleared: 0,
+		Logs:         []string{"DEBUG: Game started"},
 	}
 }
 
@@ -75,4 +77,10 @@ func (s *Stats) IncreaseTime(seconds int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	s.TimeLeft += seconds
+}
+
+func (s *Stats) AddLog(log string) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	s.Logs = append(s.Logs, log)
 }

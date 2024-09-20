@@ -52,7 +52,6 @@ Tergom is an terminal-based game that combines strategy and action. Navigate thr
 - More levels
 - More bullet types
 - More weapons (maybe)
-- Info screen Render (Wave cleared, you got x bullets, y health, etc)
 - Score system & records
 
 ## Contributing
