@@ -314,6 +314,11 @@ func (g *Game) showGameOver() {
 		fmt.Printf("\033[%d;%dH%s", y+4, (width*2)/2-len(infoMsg)/2, infoMsg)
 	}
 
+	if g.player.Score > 0 {
+		infoMsg := fmt.Sprintf("Score: %d", g.player.Score)
+		fmt.Printf("\033[%d;%dH%s", y+6, (width*2)/2-len(infoMsg)/2, infoMsg)
+	}
+
 	for {
 		char, key, err := keyboard.GetSingleKey()
 		if err != nil {
