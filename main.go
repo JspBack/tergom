@@ -15,7 +15,7 @@ func main() {
 	width, height := utils.GetTerminalSize()
 
 	selected := 0
-	options := []string{"Start Game", "Exit"}
+	options := []string{"Start Game", "Scoreboard", "Exit"}
 
 	for {
 		renderMenu(options, selected, width, height)
@@ -39,6 +39,8 @@ func main() {
 				startGame(width, height)
 				utils.ClearScreen()
 			case 1:
+				scoreboardRender()
+			case 2:
 				exitGame()
 			}
 		}
@@ -65,6 +67,44 @@ func renderMenu(options []string, selected int, width, height int) {
 func startGame(width, height int) {
 	gameInstance := game.NewGame(width, height)
 	gameInstance.Start()
+}
+
+func scoreboardRender() {
+	utils.ClearScreen()
+
+	sb := struct {
+		Entries []struct {
+			Time  time.Time
+			Score int
+			Waves int
+		}
+	}{}
+
+	fmt.Println("=== Scoreboard ===")
+	fmt.Println("-------------------")
+	if len(sb.Entries) == 0 {
+		fmt.Println("No scores yet.")
+	} else {
+		for i, entry := range sb.Entries {
+			fmt.Printf("%d. Time: %s | Score: %d | Waves: %d\n",
+				i+1,
+				entry.Time.Format("2006-01-02 15:04:05"),
+				entry.Score,
+				entry.Waves)
+		}
+	}
+	fmt.Println("-------------------")
+	fmt.Println("Press Enter to return to the menu.")
+
+	for {
+		char, key, err := keyboard.GetSingleKey()
+		if err != nil {
+			continue
+		}
+		if key == keyboard.KeyEnter || char == '\r' {
+			break
+		}
+	}
 }
 
 func exitGame() {
