@@ -1,0 +1,8 @@
+builds:
+  - main: .
+    id: "tergom"
+    binary: tergom
+    goos:
+      - linux
+      - darwin
+      - windows
